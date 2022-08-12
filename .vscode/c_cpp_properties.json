@@ -5,7 +5,8 @@
             "includePath": [
                 "${default}",
                 "${workspaceFolder}/Card",
-                "${workspaceFolder}/Terminal"
+                "${workspaceFolder}/Terminal",
+                "${workspaceFolder}/Server"
             ],
             "defines": [
                 "_DEBUG",

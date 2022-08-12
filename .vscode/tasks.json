@@ -13,7 +13,9 @@
                 "-I",
                 "${workspaceFolder}/Card",
                 "-I",
-                "${workspaceFolder}/Terminal"
+                "${workspaceFolder}/Terminal",
+                "-I",
+                "${workspaceFolder}/Server"
             ],
             "options": {
                 "cwd": "${fileDirname}"

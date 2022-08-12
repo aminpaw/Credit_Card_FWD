@@ -1,6 +1,9 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
-#include <card.h>
+
+#include<card.h>
+#include<time.h>
+
 typedef unsigned char uint8_t;
 
 typedef struct ST_terminalData_t
@@ -12,7 +15,7 @@ uint8_t transactionDate[11];
 
 typedef enum EN_terminalError_t
 {
-OK, WRONG_DATE, EXPIRED_CARD, INVALID_CARD, INVALID_AMOUNT, EXCEED_MAX_AMOUNT, INVALID_MAX_AMOUNT
+OK_TERMINAL, WRONG_DATE, EXPIRED_CARD, INVALID_CARD, INVALID_AMOUNT, EXCEED_MAX_AMOUNT, INVALID_MAX_AMOUNT
 }EN_terminalError_t ;
 
 EN_terminalError_t getTransactionDate(ST_terminalData_t *termData);
@@ -21,4 +24,11 @@ EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData);
 EN_terminalError_t getTransactionAmount(ST_terminalData_t *termData);
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData);
 EN_terminalError_t setMaxAmount(ST_terminalData_t *termData);
+int cardtoint(ST_cardData_t cardData , int start);
+int transtoint(ST_terminalData_t termData, int start);
+
+//extern ST_terminalData_t termData;
+
+
+
 #endif
