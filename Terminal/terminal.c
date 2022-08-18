@@ -1,16 +1,5 @@
 #include <terminal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h> 
 
-int main(){
-
-
-scanf("%s",cardData.cardExpirationDate);
-printf("%d", getTransactionDate(&termData));
-printf("\n%s", termData.transactionDate);
-printf("\n%d", isCardExpired(cardData,termData));
-}
 
 EN_terminalError_t getTransactionDate(ST_terminalData_t *termData){
     time_t Time = time(&Time);
@@ -67,3 +56,17 @@ EN_terminalError_t setMaxAmount(ST_terminalData_t *termData){
 }
 
 
+EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData){
+    int nDigits = strlen(cardData->primaryAccountNumber);
+    int nSum = 0,isSecond = false;
+    for (int i = nDigits - 1; i >= 0; i--) {
+        int d = cardData->primaryAccountNumber[i] - '0' ;
+        if (isSecond == 1)
+            d = d * 2;
+        nSum += d / 10;
+        nSum += d % 10;
+        isSecond = !isSecond;
+    }
+
+    if (nSum%10!=0){return INVALID_CARD;}else{return OK_TERMINAL;}
+}

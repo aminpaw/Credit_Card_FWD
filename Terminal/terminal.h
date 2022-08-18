@@ -3,6 +3,10 @@
 
 #include<card.h>
 #include<time.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h> 
+#include <stdbool.h>
 
 typedef unsigned char uint8_t;
 
@@ -26,9 +30,5 @@ EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData);
 EN_terminalError_t setMaxAmount(ST_terminalData_t *termData);
 int cardtoint(ST_cardData_t cardData , int start);
 int transtoint(ST_terminalData_t termData, int start);
-
-//extern ST_terminalData_t termData;
-
-
 
 #endif

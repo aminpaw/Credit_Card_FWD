@@ -15,7 +15,9 @@
                 "-I",
                 "${workspaceFolder}/Terminal",
                 "-I",
-                "${workspaceFolder}/Server"
+                "${workspaceFolder}/Server",
+                "-I",
+                "${workspaceFolder}/App"
             ],
             "options": {
                 "cwd": "${fileDirname}"

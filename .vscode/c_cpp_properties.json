@@ -6,7 +6,8 @@
                 "${default}",
                 "${workspaceFolder}/Card",
                 "${workspaceFolder}/Terminal",
-                "${workspaceFolder}/Server"
+                "${workspaceFolder}/Server",
+                "${workspaceFolder}/Application"
             ],
             "defines": [
                 "_DEBUG",
