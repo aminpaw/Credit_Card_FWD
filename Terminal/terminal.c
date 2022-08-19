@@ -15,11 +15,12 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t *termData){
 
 EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termData){
     int card_month = cardtoint(cardData,0);
-    int card_year = cardtoint(cardData,2);
+    int card_year = cardtoint(cardData,3);
     int trans_month = transtoint(termData,3);
     int trans_year = transtoint(termData,8);
 
-    if (trans_year>card_year || (trans_year == card_year && trans_month >> card_month)){
+
+    if (trans_year>card_year || (trans_year == card_year && trans_month > card_month)){
         return EXPIRED_CARD;
     }else{return OK_TERMINAL;}
 

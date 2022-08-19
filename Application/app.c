@@ -10,9 +10,18 @@ int main(){
 
 void appStart(){
     //Card
-    getCardHolderName(&card);
-    getCardExpiryDate(&card);
-    getCardPAN(&card);
+    if(getCardHolderName(&card)==WRONG_NAME){
+        printf("Wrong Name");
+        exit(0);
+    }
+    if (getCardExpiryDate(&card)==WRONG_EXP_DATE){
+        printf("Wrong Date");
+        exit(0);
+    }
+    if(getCardPAN(&card)==WRONG_PAN){
+        printf("Wrong PAN");
+        exit(0);
+    }
 
     //Terminal
     getTransactionDate(&termData);

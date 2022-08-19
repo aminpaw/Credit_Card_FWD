@@ -60,8 +60,9 @@ void luhnCardGenerator(ST_cardData_t *cardData){
         nSum += d % 10;
         isSecond = !isSecond;
     }
-    num[length-1] = 10-(nSum%10);
-
+    if ((nSum%10)==0){
+        num[length-1] = 1;
+    }else{num[length-1] = 10-(nSum%10);}
     for (int i =0;i<length;i++){
         cardData->primaryAccountNumber[i] = num[i] + '0';
     }
