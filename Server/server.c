@@ -5,20 +5,27 @@
 
 char acc_data[256]="";
 
-int main(){
-    ST_cardData_t card={"Amin ","19999997999","11/22"};
-    ST_terminalData_t Tdata = {800  ,1000, "14/08/2022"};
-    ST_transaction_t trans = {card,Tdata,APPROVED,223};
-    ST_accountsDB_t acc1 = {101,"1001"};
-    
-    isValidAccount(&card);
-    isAmountAvailable(&Tdata);
-}
-
 EN_transState_t recieveTransactionData(ST_transaction_t *transData){
-        if (isValidAccount(&transData->cardHolderData) == ACCOUNT_NOT_FOUND){return DECLINED_STOLEN_CARD;}
-        else if (isAmountAvailable(&transData->terminalData)==LOW_BALANCE){return DECLINED_INSUFFECIENT_FUND;}
-        else{return APPROVED;}
+        if (isValidAccount(&transData->cardHolderData) == ACCOUNT_NOT_FOUND){
+            transData->transState = DECLINED_STOLEN_CARD;
+            saveTransaction(transData);
+            printf("Declined Stolen Card");
+            return DECLINED_STOLEN_CARD;
+            }
+        
+        if (isAmountAvailable(&transData->terminalData)==LOW_BALANCE){
+            transData->transState = DECLINED_INSUFFECIENT_FUND;
+            saveTransaction(transData);
+            printf("Declined Insuffecient Fund");
+            return DECLINED_INSUFFECIENT_FUND;
+        }
+        transData->transState=APPROVED;
+        if (saveTransaction(transData)==SAVING_FAILED){
+            return INTERNAL_SERVER_ERROR;
+            printf("Internal Server Error");
+        }    
+        printf("Approved");
+        return APPROVED;
     }
 
 EN_serverError_t isValidAccount(ST_cardData_t *cardData){
@@ -49,8 +56,9 @@ EN_serverError_t isValidAccount(ST_cardData_t *cardData){
         }
     fclose(acc);
     fclose(temp);
-    if(found =1)
+    if(found ==1)
         return OK;
+    remove("temp.txt");
     return ACCOUNT_NOT_FOUND;
 }
 
@@ -70,12 +78,10 @@ EN_serverError_t isAmountAvailable(ST_terminalData_t *termData){
         balance = atof(balance_s);
     float balance_new =balance - termData->transAmount;
     pan = strchr(acc_data,' ');
-    printf("\n%f%s",balance_new,pan);
     fprintf(temp,"%f%s",balance_new,pan);
     fclose(temp);
     if (termData->transAmount > balance){
         remove("temp.txt");
-        printf("hehehehe");
         return LOW_BALANCE;
     }else{
     
@@ -86,7 +92,21 @@ EN_serverError_t isAmountAvailable(ST_terminalData_t *termData){
 }
 
 EN_serverError_t saveTransaction(ST_transaction_t *transData){
+    int transactionNumber = 0;
+    char c;
+    FILE* transactions;
+    transactions = fopen("transactions.txt","a+");
 
+    for (c = getc(transactions); c != EOF; c = getc(transactions))
+        if (c == '\n') 
+            transactionNumber ++;
+
+    transData->transactionSequenceNumber = transactionNumber+1;
+    fprintf(transactions, "%s %s %s ",transData->cardHolderData.cardHolderName,transData->cardHolderData.primaryAccountNumber,transData->cardHolderData.cardExpirationDate);
+    fprintf(transactions, "%f %f %s ",transData->terminalData.transAmount,transData->terminalData.maxTransAmount,transData->terminalData.transactionDate);
+    fprintf(transactions, "%i %i\n",transData->transState,transData->transactionSequenceNumber);
+    fclose(transactions);
+    return OK;
 }
 
 

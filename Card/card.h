@@ -14,8 +14,6 @@ uint8_t primaryAccountNumber[20];
 uint8_t cardExpirationDate[6];
 }ST_cardData_t;
 
-ST_cardData_t cardData  ;
-
 typedef enum EN_cardError_t
 {
 OK_CARD, WRONG_NAME, WRONG_EXP_DATE, WRONG_PAN

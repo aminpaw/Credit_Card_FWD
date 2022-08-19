@@ -15,7 +15,7 @@ EN_terminalError_t getTransactionDate(ST_terminalData_t *termData){
 
 EN_terminalError_t isCardExpired(ST_cardData_t cardData, ST_terminalData_t termData){
     int card_month = cardtoint(cardData,0);
-    int card_year = cardtoint(cardData,3);
+    int card_year = cardtoint(cardData,2);
     int trans_month = transtoint(termData,3);
     int trans_year = transtoint(termData,8);
 
@@ -38,24 +38,23 @@ int transtoint(ST_terminalData_t termData, int start){
 }
     
 EN_terminalError_t getTransactionAmount(ST_terminalData_t *termData){
-    scanf("%f", termData->transAmount);
+    float amount =0;
+    fflush(stdin);
+    scanf("%f", &amount);
+    termData->transAmount = amount;
     if (termData->transAmount <= 0){
         return INVALID_AMOUNT;
     }else{return OK_TERMINAL;}
 }
-
 EN_terminalError_t isBelowMaxAmount(ST_terminalData_t *termData){
     if (termData->transAmount > termData->maxTransAmount){
         return EXCEED_MAX_AMOUNT;
     }else{return OK_TERMINAL;}
 }
-
 EN_terminalError_t setMaxAmount(ST_terminalData_t *termData){
     scanf("%f", termData->maxTransAmount);
     if (termData->maxTransAmount <= 0){return INVALID_MAX_AMOUNT;}else{return OK_TERMINAL;}
 }
-
-
 EN_terminalError_t isValidCardPAN(ST_cardData_t *cardData){
     int nDigits = strlen(cardData->primaryAccountNumber);
     int nSum = 0,isSecond = false;

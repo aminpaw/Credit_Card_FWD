@@ -1,8 +1,9 @@
 #include<app.h>
 
-extern ST_cardData_t card={};
-extern ST_terminalData_t termData={};
-ST_transaction_t trans = {};
+ ST_cardData_t card={"","",""};
+ ST_terminalData_t termData={0.0,10000.0,""};
+ ST_transaction_t transaction = {};
+ 
 int main(){
     appStart();
 }
@@ -27,32 +28,14 @@ void appStart(){
 
     printf("Please Enter the Transaction Amount: \n");
     getTransactionAmount(&termData);
-    if (isBelowMaxAmount(&termData)==EXCEED_MAX_AMOUNT){
+    if (isBelowMaxAmount(&termData) ==EXCEED_MAX_AMOUNT){
         printf("Amount Exceeded Limit");
         exit(0);
     }
 
     //Server
-    trans.cardHolderData = card;
-    trans.terminalData = termData;
-    if(isValidAccount(&card) == ACCOUNT_NOT_FOUND){
-        printf("Invalid Account");
-        exit(0);
-    }
-
-    if(isAmountAvailable(&termData) == DECLINED_INSUFFECIENT_FUND){
-        printf("Insuffecient Fund");
-        exit(0);        
-    }
-
-    
-
-
-
-
-
-    
-
-
+    transaction.cardHolderData = card;
+    transaction.terminalData = termData;
+    recieveTransactionData(&transaction);
 
 }

@@ -7,7 +7,10 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "${file}",
+                "${workspaceFolder}\\Application\\app.c",
+                "${workspaceFolder}\\Server\\server.c",
+                "${workspaceFolder}\\Terminal\\terminal.c",
+                "${workspaceFolder}\\Card\\card.c",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
                 "-I",
@@ -17,7 +20,7 @@
                 "-I",
                 "${workspaceFolder}/Server",
                 "-I",
-                "${workspaceFolder}/App"
+                "${workspaceFolder}/Application"
             ],
             "options": {
                 "cwd": "${fileDirname}"

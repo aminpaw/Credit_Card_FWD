@@ -29,8 +29,7 @@ float balance;
 uint8_t primaryAccountNumber[20];
 }ST_accountsDB_t;
 
-extern ST_accountsDB_t validAccounts[255];
-extern ST_transaction_t transactions[255];
+
 
 EN_transState_t recieveTransactionData(ST_transaction_t *transData);
 EN_serverError_t isValidAccount(ST_cardData_t *cardData);

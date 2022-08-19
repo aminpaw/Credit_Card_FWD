@@ -3,25 +3,19 @@
 #include <stdbool.h>
 #include <card.h>
 
-int main()
-{   
-    
-    ST_cardData_t card = {};
-    printf("%d\n", getCardHolderName(&cardData));
-    printf("%d\n",getCardExpiryDate(&cardData));
-    printf("%d\n",getCardPAN(&cardData));
-}
-
 EN_cardError_t getCardHolderName(ST_cardData_t *cardData){
     printf("Please Enter your Name: ");
-    scanf("%s",cardData->cardHolderName);
+    fgets(cardData->cardHolderName,25,stdin);
     if (strlen(cardData->cardHolderName)<20||strlen(cardData->cardHolderName)>24||cardData->cardHolderName == NULL){
         return WRONG_NAME;
-    }else{return OK_CARD;}
+    }else{
+        
+        return OK_CARD;}
 }
 
 EN_cardError_t getCardExpiryDate(ST_cardData_t *cardData){
     printf("Please Enter the Card's Expiry Date: ");
+    fflush(stdin);
     scanf("%s",cardData->cardExpirationDate);
     if (strlen(cardData->cardExpirationDate)!=5||cardData->cardExpirationDate == NULL){
         return WRONG_EXP_DATE;
@@ -30,8 +24,15 @@ EN_cardError_t getCardExpiryDate(ST_cardData_t *cardData){
 
 
 EN_cardError_t getCardPAN(ST_cardData_t *cardData){
+    char PAN_s[20] =""; 
     luhnCardGenerator(cardData);
     printf("Generated Luhn Card Number: %s\n",cardData->primaryAccountNumber);
+    printf("Please Enter your Card's PAN (PRESS ENTER TO USE GENERATED NUMBER):");
+    fflush(stdin);
+    fgets(PAN_s,20,stdin);
+    if (PAN_s[0]!='\n'){
+        strcpy(cardData->primaryAccountNumber,PAN_s);
+    }
     if (strlen(cardData->primaryAccountNumber)<16||strlen(cardData->primaryAccountNumber)>19||cardData->primaryAccountNumber == NULL){
         return WRONG_PAN;
     }else{return OK_CARD;}
@@ -40,7 +41,6 @@ EN_cardError_t getCardPAN(ST_cardData_t *cardData){
 void luhnCardGenerator(ST_cardData_t *cardData){
     int length = 18;
     int num[length];
-
     time_t t;
     srand(time(&t));
 
